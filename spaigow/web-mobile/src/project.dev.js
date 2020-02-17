@@ -1081,7 +1081,7 @@ window.__require = function e(t, n, r) {
         this.node.addChild(paiGowTable);
         var url = new URL(location.href);
         CocosUtils_1.default.log(location.href);
-        CocosUtils_1.default.warn(url.searchParams);
+        CocosUtils_1.default.warn(url.searchParams.get("pid"));
       };
       Game = __decorate([ ccclass ], Game);
       return Game;
