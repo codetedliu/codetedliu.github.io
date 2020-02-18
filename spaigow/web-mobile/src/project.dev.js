@@ -1069,21 +1069,15 @@ window.__require = function e(t, n, r) {
       Game.prototype.onLoad = function() {
         PaiGowContext_1.fixVisible(this.node);
         this.init();
-        var menu = cc.instantiate(PaiGowContext_1.prefabs.Menu);
-        var menuJs = menu.getComponent("Menu");
-        this.node.addChild(menu);
-        menu.zIndex = PaiGowContext_1.zOrder.zIndex_8;
-        menuJs.init();
       };
       Game.prototype.start = function() {
         var url = new URL(location.href);
         if (null === url.searchParams.get("pid")) this.root["$ui"]["toolTips"].active = true; else {
           this.root["$ui"]["toolTips"].active = false;
           var token = url.searchParams.get("pid");
-          LuckPay_1.luckPay.getBalance(token, PaiGowContext_1.globalConstant.tableId).catch(function(err) {
+          LuckPay_1.luckPay.getBalance(token).catch(function(err) {
             CocosUtils_1.default.error(err);
           }).then(function(res) {
-            CocosUtils_1.default.warn(res);
             if (!res) return;
             CocosUtils_1.default.log(res);
           });
