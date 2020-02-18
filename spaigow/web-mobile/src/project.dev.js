@@ -1054,6 +1054,7 @@ window.__require = function e(t, n, r) {
     Object.defineProperty(exports, "__esModule", {
       value: true
     });
+    var LuckPay_1 = require("./lib/LuckPay");
     var _a = cc._decorator, ccclass = _a.ccclass, property = _a.property;
     var CocosUtils_1 = require("./lib/CocosUtils");
     var PaiGowContext_1 = require("./lib/PaiGowContext");
@@ -1075,13 +1076,21 @@ window.__require = function e(t, n, r) {
         menuJs.init();
       };
       Game.prototype.start = function() {
-        var paiGowTable = cc.instantiate(PaiGowContext_1.prefabs.PaiGowTable);
-        var paiGowTableJs = paiGowTable.getComponent("PaiGowTable");
-        paiGowTableJs.init();
-        this.node.addChild(paiGowTable);
         var url = new URL(location.href);
-        CocosUtils_1.default.log(location.href);
-        CocosUtils_1.default.warn(url.searchParams.get("pid"));
+        if (null === url.searchParams.get("pid")) this.root["$ui"]["toolTips"].active = true; else {
+          this.root["$ui"]["toolTips"].active = false;
+          var token = url.searchParams.get("pid");
+          LuckPay_1.luckPay.getBalance(token, PaiGowContext_1.globalConstant.tableId).catch(function(err) {
+            CocosUtils_1.default.error(err);
+          }).then(function(res) {
+            CocosUtils_1.default.warn(res);
+            if (!res) return;
+            CocosUtils_1.default.log(res);
+          });
+        }
+      };
+      Game.prototype.onSingInClick = function() {
+        window.location.href = "https://clover.kimicat.com/LuckPayTest/signin.html";
       };
       Game = __decorate([ ccclass ], Game);
       return Game;
@@ -1090,6 +1099,7 @@ window.__require = function e(t, n, r) {
     cc._RF.pop();
   }, {
     "./lib/CocosUtils": "CocosUtils",
+    "./lib/LuckPay": "LuckPay",
     "./lib/PaiGowContext": "PaiGowContext"
   } ],
   HandCardRule: [ function(require, module, exports) {
@@ -1619,7 +1629,7 @@ window.__require = function e(t, n, r) {
     Object.defineProperty(exports, "__esModule", {
       value: true
     });
-    var LuckPayHost = "https://luckpaytest-api.lucknetwork.org";
+    var LuckPayHost = "https://tronpaytest-api.lucknetwork.org";
     var LuckPayUtils = {
       promiseInjector: function(scope) {
         var _this = this;
