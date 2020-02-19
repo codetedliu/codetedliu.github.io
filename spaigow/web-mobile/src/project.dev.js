@@ -1083,6 +1083,7 @@ window.__require = function e(t, n, r) {
             _this.root["$ui"]["toolTips"].active = true;
           }).then(function(res) {
             if (!res) return;
+            console.warn(res);
             var menu = cc.instantiate(PaiGowContext_1.prefabs.Menu);
             var menuJs = menu.getComponent("Menu");
             _this.node.addChild(menu);
