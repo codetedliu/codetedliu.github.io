@@ -1083,7 +1083,17 @@ window.__require = function e(t, n, r) {
             _this.root["$ui"]["toolTips"].active = true;
           }).then(function(res) {
             if (!res) return;
-            CocosUtils_1.default.log(res);
+            var menu = cc.instantiate(PaiGowContext_1.prefabs.Menu);
+            var menuJs = menu.getComponent("Menu");
+            _this.node.addChild(menu);
+            menu.zIndex = PaiGowContext_1.zOrder.zIndex_8;
+            menuJs.init();
+            menuJs.setPlayerBalance(res["available"] - 0);
+            var paiGowTable = cc.instantiate(PaiGowContext_1.prefabs.PaiGowTable);
+            var paiGowTableJs = paiGowTable.getComponent("PaiGowTable");
+            paiGowTableJs.init();
+            _this.node.addChild(paiGowTable);
+            _this.schedule(_this.refreshPlayerBalance, 5, cc.macro.REPEAT_FOREVER);
           });
         }
       };
@@ -1097,6 +1107,9 @@ window.__require = function e(t, n, r) {
         var url = window.location.href;
         var newUrl = url.split("?")[0];
         history.pushState({}, "", newUrl);
+      };
+      Game.prototype.refreshPlayerBalance = function() {
+        console.log(this);
       };
       Game = __decorate([ ccclass ], Game);
       return Game;
@@ -1950,6 +1963,7 @@ window.__require = function e(t, n, r) {
     var PaiGowContext_1 = require("../lib/PaiGowContext");
     var PaiGowText_1 = require("../lib/PaiGowText");
     var Audio_1 = require("../lib/Audio");
+    var PaiGowTableInfo_1 = require("../lib/PaiGowTableInfo");
     var _a = cc._decorator, ccclass = _a.ccclass, property = _a.property;
     var Menu = function(_super) {
       __extends(Menu, _super);
@@ -2118,6 +2132,10 @@ window.__require = function e(t, n, r) {
         this.root["line"].active = false;
         this.root["mask"].active = false;
       };
+      Menu.prototype.setPlayerBalance = function(balance) {
+        PaiGowTableInfo_1.gamerInfo.balance = balance;
+        this.root["#playerBalance"]["label"].string = PaiGowTableInfo_1.gamerInfo + "";
+      };
       __decorate([ property(cc.Prefab) ], Menu.prototype, "MenuItem", void 0);
       __decorate([ property(cc.SpriteAtlas) ], Menu.prototype, "icons", void 0);
       Menu = __decorate([ ccclass ], Menu);
@@ -2132,6 +2150,7 @@ window.__require = function e(t, n, r) {
     "../lib/PaiGowContext": "PaiGowContext",
     "../lib/PaiGowPlayer": "PaiGowPlayer",
     "../lib/PaiGowSetting": "PaiGowSetting",
+    "../lib/PaiGowTableInfo": "PaiGowTableInfo",
     "../lib/PaiGowText": "PaiGowText"
   } ],
   PaiGowApi: [ function(require, module, exports) {

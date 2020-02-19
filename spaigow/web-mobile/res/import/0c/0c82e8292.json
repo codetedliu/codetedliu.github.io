@@ -933,7 +933,7 @@
         "__type__": "TypedArray",
         "ctor": "Float64Array",
         "array": [
-          280,
+          270,
           -45,
           0,
           0,
@@ -963,10 +963,10 @@
               "__uuid__": "ecpdLyjvZBwrvm+cedCcQy"
             }
           ],
-          "_string": "TRX",
-          "_N$string": "TRX",
-          "_fontSize": 24,
-          "_lineHeight": 24,
+          "_string": "Pts",
+          "_N$string": "Pts",
+          "_fontSize": 28,
+          "_lineHeight": 28,
           "_N$horizontalAlign": 1,
           "_N$verticalAlign": 1,
           "_N$fontFamily": "Avenir Next Cyr"
@@ -984,14 +984,14 @@
       },
       "_contentSize": {
         "__type__": "cc.Size",
-        "width": 43.63,
-        "height": 30.24
+        "width": 37.55,
+        "height": 35.28
       },
       "_trs": {
         "__type__": "TypedArray",
         "ctor": "Float64Array",
         "array": [
-          320,
+          310,
           -45,
           0,
           0,
