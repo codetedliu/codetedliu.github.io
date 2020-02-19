@@ -1071,20 +1071,32 @@ window.__require = function e(t, n, r) {
         this.init();
       };
       Game.prototype.start = function() {
+        var _this = this;
         var url = new URL(location.href);
         if (null === url.searchParams.get("pid")) this.root["$ui"]["toolTips"].active = true; else {
           this.root["$ui"]["toolTips"].active = false;
           var token = url.searchParams.get("pid");
+          this.hideUrl();
           LuckPay_1.luckPay.getBalance(token).catch(function(err) {
             CocosUtils_1.default.error(err);
+            _this.setToolTipsMessage("Platform token id error. Please sing up again.");
+            _this.root["$ui"]["toolTips"].active = true;
           }).then(function(res) {
             if (!res) return;
             CocosUtils_1.default.log(res);
           });
         }
       };
+      Game.prototype.setToolTipsMessage = function(message) {
+        this.root["$ui"]["$toolTips"]["#tip"]["label"].string = message;
+      };
       Game.prototype.onSingInClick = function() {
         window.location.href = "https://clover.kimicat.com/LuckPayTest/signin.html";
+      };
+      Game.prototype.hideUrl = function() {
+        var url = window.location.href;
+        var newUrl = url.split("?")[0];
+        history.pushState({}, "", newUrl);
       };
       Game = __decorate([ ccclass ], Game);
       return Game;
@@ -4322,7 +4334,8 @@ window.__require = function e(t, n, r) {
       value: true
     });
     exports.gamerInfo = {
-      gamerId: ""
+      gamerId: "",
+      balance: 0
     };
     exports.betLimit = {
       mainBetMin: 0,
