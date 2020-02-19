@@ -1054,14 +1054,17 @@ window.__require = function e(t, n, r) {
     Object.defineProperty(exports, "__esModule", {
       value: true
     });
-    var LuckPay_1 = require("./lib/LuckPay");
-    var _a = cc._decorator, ccclass = _a.ccclass, property = _a.property;
     var CocosUtils_1 = require("./lib/CocosUtils");
     var PaiGowContext_1 = require("./lib/PaiGowContext");
+    var PaiGowTableInfo_1 = require("./lib/PaiGowTableInfo");
+    var LuckPay_1 = require("./lib/LuckPay");
+    var _a = cc._decorator, ccclass = _a.ccclass, property = _a.property;
     var Game = function(_super) {
       __extends(Game, _super);
       function Game() {
-        return null !== _super && _super.apply(this, arguments) || this;
+        var _this = null !== _super && _super.apply(this, arguments) || this;
+        _this.menu = null;
+        return _this;
       }
       Game.prototype.init = function() {
         this.root = CocosUtils_1.default.tree(this.node, {});
@@ -1075,21 +1078,24 @@ window.__require = function e(t, n, r) {
         var url = new URL(location.href);
         if (null === url.searchParams.get("pid")) this.root["$ui"]["toolTips"].active = true; else {
           this.root["$ui"]["toolTips"].active = false;
-          var token = url.searchParams.get("pid");
+          var token_1 = url.searchParams.get("pid");
           this.hideUrl();
-          LuckPay_1.luckPay.getBalance(token).catch(function(err) {
+          LuckPay_1.luckPay.getBalance(token_1).catch(function(err) {
             CocosUtils_1.default.error(err);
             _this.setToolTipsMessage("Platform token id error. Please sing up again.");
             _this.root["$ui"]["toolTips"].active = true;
           }).then(function(res) {
             if (!res) return;
             console.warn(res);
+            console.warn(typeof res);
+            PaiGowTableInfo_1.gamerInfo.gamerId = token_1;
             var menu = cc.instantiate(PaiGowContext_1.prefabs.Menu);
             var menuJs = menu.getComponent("Menu");
             _this.node.addChild(menu);
             menu.zIndex = PaiGowContext_1.zOrder.zIndex_8;
             menuJs.init();
-            menuJs.setPlayerBalance(res["available"] - 0);
+            menuJs.setPlayerBalance(parseInt(res["available"]));
+            _this.menu = menuJs;
             var paiGowTable = cc.instantiate(PaiGowContext_1.prefabs.PaiGowTable);
             var paiGowTableJs = paiGowTable.getComponent("PaiGowTable");
             paiGowTableJs.init();
@@ -1110,7 +1116,13 @@ window.__require = function e(t, n, r) {
         history.pushState({}, "", newUrl);
       };
       Game.prototype.refreshPlayerBalance = function() {
-        console.log(this);
+        var _this = this;
+        LuckPay_1.luckPay.getBalance(PaiGowTableInfo_1.gamerInfo.gamerId).catch(function(err) {
+          CocosUtils_1.default.error(err);
+        }).then(function(res) {
+          if (!res) return;
+          _this.menu.setPlayerBalance(parseInt(res["available"]));
+        });
       };
       Game = __decorate([ ccclass ], Game);
       return Game;
@@ -1120,7 +1132,8 @@ window.__require = function e(t, n, r) {
   }, {
     "./lib/CocosUtils": "CocosUtils",
     "./lib/LuckPay": "LuckPay",
-    "./lib/PaiGowContext": "PaiGowContext"
+    "./lib/PaiGowContext": "PaiGowContext",
+    "./lib/PaiGowTableInfo": "PaiGowTableInfo"
   } ],
   HandCardRule: [ function(require, module, exports) {
     "use strict";
