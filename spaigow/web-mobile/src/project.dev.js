@@ -306,6 +306,7 @@ window.__require = function e(t, n, r) {
           PaiGowContext_1.getAlert().show("Error. No id and bet.");
           return;
         }
+        this.checkEnableBet() && PaiGowContext_1.getAlert().show(PaiGowMessage_1.PaiGowMessage.NotEnoughBalanceForBet);
         PaiGowPoker2_1.paiGowPoker2.placeBet(PaiGowTableInfo_1.gamerInfo.gamerId, this.mainBetValue, this.aceHighBetValue, this.fortuneBetValue).catch(function(err) {
           PaiGowContext_1.getAlert().show(err);
           CocosUtils_1.default.error(err);
@@ -338,6 +339,8 @@ window.__require = function e(t, n, r) {
             _this.table.enableButtonClick(PaiGowTableInfo_1.TABLE_BUTTON.SPLIT, true);
             _this.node.destroy();
           }
+          var game = cc.director.getScene().getChildByName("Canvas").getComponent("Game");
+          game.refreshPlayerBalance();
         });
       };
       Bet.prototype.moveChip = function(chip, target, callback) {
@@ -414,6 +417,9 @@ window.__require = function e(t, n, r) {
         this.fortuneBetMin = fortuneMin;
         this.updateLimitValue();
         this.updateButtonStatus();
+      };
+      Bet.prototype.checkEnableBet = function() {
+        return PaiGowTableInfo_1.gamerInfo.balance >= this.aceHighBetRealTimeValue + this.fortuneBetRealTimeValue + this.mainBetRealTimeValue;
       };
       __decorate([ property(cc.SpriteAtlas) ], Bet.prototype, "chips", void 0);
       Bet = __decorate([ ccclass ], Bet);
@@ -1086,8 +1092,6 @@ window.__require = function e(t, n, r) {
             _this.root["$ui"]["toolTips"].active = true;
           }).then(function(res) {
             if (!res) return;
-            console.warn(res);
-            console.warn(typeof res);
             PaiGowTableInfo_1.gamerInfo.gamerId = token_1;
             var menu = cc.instantiate(PaiGowContext_1.prefabs.Menu);
             var menuJs = menu.getComponent("Menu");
@@ -1100,6 +1104,7 @@ window.__require = function e(t, n, r) {
             var paiGowTableJs = paiGowTable.getComponent("PaiGowTable");
             paiGowTableJs.init();
             _this.node.addChild(paiGowTable);
+            _this.refreshPlayerBalance();
             _this.schedule(_this.refreshPlayerBalance, 5, cc.macro.REPEAT_FOREVER);
           });
         }
@@ -2148,7 +2153,7 @@ window.__require = function e(t, n, r) {
       };
       Menu.prototype.setPlayerBalance = function(balance) {
         PaiGowTableInfo_1.gamerInfo.balance = balance;
-        this.root["#playerBalance"]["label"].string = PaiGowTableInfo_1.gamerInfo + "";
+        this.root["#playerBalance"]["label"].string = PaiGowTableInfo_1.gamerInfo.balance + "";
       };
       __decorate([ property(cc.Prefab) ], Menu.prototype, "MenuItem", void 0);
       __decorate([ property(cc.SpriteAtlas) ], Menu.prototype, "icons", void 0);
@@ -2437,22 +2442,14 @@ window.__require = function e(t, n, r) {
     var PaiGowMessage;
     (function(PaiGowMessage) {
       PaiGowMessage["UnInstallTronLink"] = "Please install TronLink.";
-      PaiGowMessage["JoinSeatError"] = "You can't join this seat.";
-      PaiGowMessage["EnterYourID"] = "Please enter your ID.";
-      PaiGowMessage["NoID"] = "You have to set your playerID first.";
-      PaiGowMessage["IDAlreadySeat"] = "This ID already seated.";
-      PaiGowMessage["JoinTableSuccess"] = "Join table success.";
       PaiGowMessage["SplitIllegal"] = "High card must be higher rank than low card.";
-      PaiGowMessage["BetSuccess"] = "Bet Success.";
       PaiGowMessage["SureToLeave"] = "Leave PaiGow ?";
-      PaiGowMessage["PleaseSelectSeat"] = "Select a seat and bet to join table.";
-      PaiGowMessage["WaitingCardDealing"] = "Cards dealing, please wait...";
       PaiGowMessage["Tap2Card"] = "Tap 2 cards for the low hand.";
       PaiGowMessage["PleaseSplitCard"] = "Please split your cards.";
       PaiGowMessage["PleaseBet"] = "Please bet for next round.";
       PaiGowMessage["Win"] = "You win: ";
       PaiGowMessage["Lose"] = "You lose: ";
-      PaiGowMessage["PleaseWaitOtherPlayersSplit"] = "Please wait other players split.";
+      PaiGowMessage["NotEnoughBalanceForBet"] = "Insufficient Balance.";
     })(PaiGowMessage = exports.PaiGowMessage || (exports.PaiGowMessage = {}));
     cc._RF.pop();
   }, {} ],
@@ -4518,9 +4515,32 @@ window.__require = function e(t, n, r) {
         this.setDealer(dealer);
       };
       PaiGowTable.prototype.start = function() {
-        this.enableButtonClick(PaiGowTableInfo_1.TABLE_BUTTON.BET, true);
-        this.enableButtonClick(PaiGowTableInfo_1.TABLE_BUTTON.LEAVE, true);
-        this.setMessage(PaiGowMessage_1.PaiGowMessage.EnterYourID);
+        this.checkGameStatus();
+      };
+      PaiGowTable.prototype.checkGameStatus = function() {
+        var _this = this;
+        PaiGowPoker2_1.paiGowPoker2.getGameStatus(PaiGowTableInfo_1.gamerInfo.gamerId).catch(function(err) {
+          PaiGowContext_1.getAlert().show(err);
+          CocosUtils_1.default.error(err);
+        }).then(function(res) {
+          if (!res) return;
+          if (res["status"] === PaiGowTableInfo_1.GameStatus.SPLIT_CARD) {
+            _this.clearResultEffect();
+            _this.updateTableCard(null, null, null, null, true);
+            _this.updateHandCard(res["playerCards"]);
+            _this.updateDealer(res["dealerCards"], res["dealerLowHand"]);
+            _this.updateBet(res["mainBet"], res["sideBet"], res["fortuneBet"]);
+            _this.setMessage(PaiGowMessage_1.PaiGowMessage.Tap2Card);
+            _this.showTableButtons(PaiGowTableInfo_1.TABLE_BUTTONS.SPLIT);
+            _this.enableButtonClick(PaiGowTableInfo_1.TABLE_BUTTON.HOUSEWAY, true);
+            _this.enableButtonClick(PaiGowTableInfo_1.TABLE_BUTTON.SPLIT, true);
+          } else {
+            _this.setMessage(PaiGowMessage_1.PaiGowMessage.PleaseBet);
+            _this.showTableButtons(PaiGowTableInfo_1.TABLE_BUTTONS.PLACE_BET);
+            _this.enableButtonClick(PaiGowTableInfo_1.TABLE_BUTTON.BET, true);
+            _this.enableButtonClick(PaiGowTableInfo_1.TABLE_BUTTON.LEAVE, true);
+          }
+        });
       };
       PaiGowTable.prototype.onHouseWayClick = function() {
         var handCard = this.getHandCard();
@@ -4563,50 +4583,15 @@ window.__require = function e(t, n, r) {
               PaiGowTableInfo_1.lastBetValue.mainBet = res["mainBet"];
               PaiGowTableInfo_1.lastBetValue.aceHighBet = res["sideBet"];
               PaiGowTableInfo_1.lastBetValue.fortuneBet = res["fortuneBet"];
+              var game = cc.director.getScene().getChildByName("Canvas").getComponent("Game");
+              game.refreshPlayerBalance();
             });
           }
         } else CocosUtils_1.default.error("BUG: you can't click split without hand card.");
       };
       PaiGowTable.prototype.onBetClick = function() {
         var _this = this;
-        "" === PaiGowTableInfo_1.gamerInfo.gamerId ? PaiGowContext_1.getPopup().showOption(PaiGowMessage_1.PaiGowMessage.EnterYourID, function(str) {
-          PaiGowPoker2_1.paiGowPoker2.getGameStatus(str).catch(function(err) {
-            PaiGowContext_1.getAlert().show(err);
-            CocosUtils_1.default.error(err);
-          }).then(function(res) {
-            if (!res) return;
-            PaiGowTableInfo_1.gamerInfo.gamerId = str;
-            if (res["status"] === PaiGowTableInfo_1.GameStatus.SPLIT_CARD) {
-              _this.clearResultEffect();
-              _this.updateTableCard(null, null, null, null, true);
-              _this.updateHandCard(res["playerCards"]);
-              _this.updateDealer(res["dealerCards"], res["dealerLowHand"]);
-              _this.updateBet(res["mainBet"], res["sideBet"], res["fortuneBet"]);
-              _this.setMessage(PaiGowMessage_1.PaiGowMessage.Tap2Card);
-              _this.showTableButtons(PaiGowTableInfo_1.TABLE_BUTTONS.SPLIT);
-              _this.enableButtonClick(PaiGowTableInfo_1.TABLE_BUTTON.HOUSEWAY, true);
-              _this.enableButtonClick(PaiGowTableInfo_1.TABLE_BUTTON.SPLIT, true);
-            } else PaiGowPoker2_1.paiGowPoker2.getTableStatus(str).catch(function(err) {
-              PaiGowContext_1.getAlert().show(err);
-              CocosUtils_1.default.error(err);
-            }).then(function(res) {
-              if (!res) return;
-              PaiGowTableInfo_1.betLimit.mainBetMax = res["betLimits"]["maxMainBet"];
-              PaiGowTableInfo_1.betLimit.mainBetMin = res["betLimits"]["minMainBet"];
-              PaiGowTableInfo_1.betLimit.aceHighBetMax = res["betLimits"]["maxSideBet"];
-              PaiGowTableInfo_1.betLimit.aceHighBetMin = res["betLimits"]["minSideBet"];
-              PaiGowTableInfo_1.betLimit.fortuneBetMax = res["betLimits"]["maxFortuneBet"];
-              PaiGowTableInfo_1.betLimit.fortuneBetMin = res["betLimits"]["minFortuneBet"];
-              _this.enableButtonClick(PaiGowTableInfo_1.TABLE_BUTTON.BET, false);
-              var bet = cc.instantiate(_this.Bet);
-              var betJs = bet.getComponent("Bet");
-              betJs.init();
-              betJs.table = _this;
-              PaiGowContext_1.getCurrentSceneNode().addChild(bet);
-              _this.enableButtonClick(PaiGowTableInfo_1.TABLE_BUTTON.BET, true);
-            });
-          });
-        }, true, 6) : PaiGowPoker2_1.paiGowPoker2.getTableStatus(PaiGowTableInfo_1.gamerInfo.gamerId).catch(function(err) {
+        PaiGowPoker2_1.paiGowPoker2.getTableStatus(PaiGowTableInfo_1.gamerInfo.gamerId).catch(function(err) {
           PaiGowContext_1.getAlert().show(err);
           CocosUtils_1.default.error(err);
         }).then(function(res) {
