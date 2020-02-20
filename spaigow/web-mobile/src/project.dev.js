@@ -306,7 +306,10 @@ window.__require = function e(t, n, r) {
           PaiGowContext_1.getAlert().show("Error. No id and bet.");
           return;
         }
-        this.checkEnableBet() && PaiGowContext_1.getAlert().show(PaiGowMessage_1.PaiGowMessage.NotEnoughBalanceForBet);
+        if (!this.checkEnableBet()) {
+          PaiGowContext_1.getAlert().show(PaiGowMessage_1.PaiGowMessage.NotEnoughBalanceForBet);
+          return;
+        }
         PaiGowPoker2_1.paiGowPoker2.placeBet(PaiGowTableInfo_1.gamerInfo.gamerId, this.mainBetValue, this.aceHighBetValue, this.fortuneBetValue).catch(function(err) {
           PaiGowContext_1.getAlert().show(err);
           CocosUtils_1.default.error(err);
