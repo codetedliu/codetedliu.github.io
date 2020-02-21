@@ -1086,7 +1086,8 @@ window.__require = function e(t, n, r) {
         var _this = this;
         var url = new URL(location.href);
         if (null === url.searchParams.get("pid")) this.root["$ui"]["toolTips"].active = true; else {
-          this.root["$ui"]["toolTips"].active = false;
+          this.setToolTipsMessage("Initialing data...");
+          this.root["$ui"]["toolTips"].active = true;
           var token_1 = url.searchParams.get("pid");
           this.hideUrl();
           LuckPay_1.luckPay.getBalance(token_1).catch(function(err) {
@@ -1095,6 +1096,7 @@ window.__require = function e(t, n, r) {
             _this.root["$ui"]["toolTips"].active = true;
           }).then(function(res) {
             if (!res) return;
+            _this.root["$ui"]["toolTips"].active = false;
             PaiGowTableInfo_1.gamerInfo.gamerId = token_1;
             var menu = cc.instantiate(PaiGowContext_1.prefabs.Menu);
             var menuJs = menu.getComponent("Menu");
@@ -2265,7 +2267,7 @@ window.__require = function e(t, n, r) {
     });
     var CocosUtils_1 = require("./CocosUtils");
     exports.globalConstant = {
-      tableId: "testTable"
+      tableId: "money_table"
     };
     exports.prefabs = {
       Alert: null,
