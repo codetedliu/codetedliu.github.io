@@ -2072,6 +2072,7 @@ window.__require = function e(t, n, r) {
           var itemJs = item.getComponent("MenuItem");
           itemJs.setTitleLabel(menuItemText[i]["content"]);
         });
+        this.root["#currency"]["label"].string = PaiGowText_1.paiGowText[language]["MenuOption"]["currency"];
       };
       Menu.prototype.onMenuButtonClick = function() {
         if (this.isBack) {
@@ -2233,7 +2234,6 @@ window.__require = function e(t, n, r) {
     var LuckPay_1 = require("./LuckPay");
     var CocosUtils_1 = require("./CocosUtils");
     var PaiGowPlayer_1 = require("./PaiGowPlayer");
-    var PaiGowMessage_1 = require("./PaiGowMessage");
     var PaiGowPoker_1 = require("./PaiGowPoker");
     var PaiGowApi = function() {
       function PaiGowApi(currency) {
@@ -2251,10 +2251,7 @@ window.__require = function e(t, n, r) {
       });
       PaiGowApi.prototype.login = function() {
         var _this = this;
-        if ("undefined" === typeof window["tronWeb"]) {
-          PaiGowContext_1.getAlert().show(PaiGowMessage_1.PaiGowMessage.UnInstallTronLink);
-          return;
-        }
+        if ("undefined" === typeof window["tronWeb"]) return;
         var message = "";
         LuckPay_1.luckPay.getSignMessage(this.currency).then(function(result) {
           CocosUtils_1.default.log("getSignMessage:");
@@ -2299,7 +2296,6 @@ window.__require = function e(t, n, r) {
     "./CocosUtils": "CocosUtils",
     "./LuckPay": "LuckPay",
     "./PaiGowContext": "PaiGowContext",
-    "./PaiGowMessage": "PaiGowMessage",
     "./PaiGowPlayer": "PaiGowPlayer",
     "./PaiGowPoker": "PaiGowPoker"
   } ],
@@ -4687,6 +4683,7 @@ window.__require = function e(t, n, r) {
           var cards = handCardJs.getCards(null, true);
           var low = PaiGowPoker2_1.paigowUtils.houseWay(cards);
           handCardJs.pickCards(low);
+          this.setMessage(PaiGowMessage_1.PaiGowMessageType.PleaseSplitCard);
         } else CocosUtils_1.default.error("BUG: you can't click houseWay without hand card.");
       };
       PaiGowTable.prototype.onSplitClick = function() {
@@ -4887,6 +4884,7 @@ window.__require = function e(t, n, r) {
           break;
 
          case PaiGowMessage_1.PaiGowMessageType.Lose:
+          "" !== result && PaiGowMessage_1.PaiGowMessage.setResult(result);
           message = PaiGowMessage_1.PaiGowMessage[lang][PaiGowMessage_1.PaiGowMessageType.Lose] + "-" + PaiGowMessage_1.PaiGowMessage.getResult() + PaiGowMessage_1.PaiGowMessage[lang][PaiGowMessage_1.PaiGowMessageType.Total];
           message += "\n " + PaiGowMessage_1.PaiGowMessage[lang][PaiGowMessage_1.PaiGowMessageType.PleaseBet];
           break;
@@ -5037,7 +5035,8 @@ window.__require = function e(t, n, r) {
       MenuOption: {
         ON: "ON",
         OFF: "OFF",
-        language: "EN"
+        language: "EN",
+        currency: "Pts"
       },
       GameRule: {
         Buttons: {
@@ -5201,7 +5200,8 @@ window.__require = function e(t, n, r) {
       MenuOption: {
         ON: "\u5f00",
         OFF: "\u5173",
-        language: "\u7b80\u4e2d"
+        language: "\u7b80\u4e2d",
+        currency: "\u70b9"
       },
       GameRule: {
         Buttons: {
