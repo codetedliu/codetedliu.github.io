@@ -889,7 +889,7 @@
           "_N$string": "MAX",
           "_fontSize": 24,
           "_lineHeight": 24,
-          "_N$horizontalAlign": 1,
+          "_N$horizontalAlign": 2,
           "_N$verticalAlign": 1,
           "_N$fontFamily": "Avenir Next Cyr"
         }
@@ -909,11 +909,16 @@
         "width": 53.64,
         "height": 30.24
       },
+      "_anchorPoint": {
+        "__type__": "cc.Vec2",
+        "x": 1,
+        "y": 0.5
+      },
       "_trs": {
         "__type__": "TypedArray",
         "ctor": "Float64Array",
         "array": [
-          -40,
+          -3,
           -130,
           0,
           0,
@@ -974,7 +979,7 @@
         "__type__": "TypedArray",
         "ctor": "Float64Array",
         "array": [
-          40,
+          10,
           0,
           0,
           0,
@@ -1013,7 +1018,7 @@
           "_N$string": "MIN",
           "_fontSize": 24,
           "_lineHeight": 24,
-          "_N$horizontalAlign": 1,
+          "_N$horizontalAlign": 2,
           "_N$verticalAlign": 1,
           "_N$fontFamily": "Avenir Next Cyr"
         }
@@ -1033,11 +1038,16 @@
         "width": 45.84,
         "height": 30.24
       },
+      "_anchorPoint": {
+        "__type__": "cc.Vec2",
+        "x": 1,
+        "y": 0.5
+      },
       "_trs": {
         "__type__": "TypedArray",
         "ctor": "Float64Array",
         "array": [
-          -40,
+          -3,
           -160,
           0,
           0,
@@ -1098,7 +1108,7 @@
         "__type__": "TypedArray",
         "ctor": "Float64Array",
         "array": [
-          40,
+          10,
           0,
           0,
           0,
@@ -1919,7 +1929,7 @@
           "_N$string": "MAX",
           "_fontSize": 24,
           "_lineHeight": 24,
-          "_N$horizontalAlign": 1,
+          "_N$horizontalAlign": 2,
           "_N$verticalAlign": 1,
           "_N$fontFamily": "Avenir Next Cyr"
         }
@@ -1939,11 +1949,16 @@
         "width": 53.64,
         "height": 30.24
       },
+      "_anchorPoint": {
+        "__type__": "cc.Vec2",
+        "x": 1,
+        "y": 0.5
+      },
       "_trs": {
         "__type__": "TypedArray",
         "ctor": "Float64Array",
         "array": [
-          -40,
+          -3,
           -130,
           0,
           0,
@@ -2004,7 +2019,7 @@
         "__type__": "TypedArray",
         "ctor": "Float64Array",
         "array": [
-          40,
+          10,
           0,
           0,
           0,
@@ -2043,7 +2058,7 @@
           "_N$string": "MIN",
           "_fontSize": 24,
           "_lineHeight": 24,
-          "_N$horizontalAlign": 1,
+          "_N$horizontalAlign": 2,
           "_N$verticalAlign": 1,
           "_N$fontFamily": "Avenir Next Cyr"
         }
@@ -2063,11 +2078,16 @@
         "width": 45.84,
         "height": 30.24
       },
+      "_anchorPoint": {
+        "__type__": "cc.Vec2",
+        "x": 1,
+        "y": 0.5
+      },
       "_trs": {
         "__type__": "TypedArray",
         "ctor": "Float64Array",
         "array": [
-          -40,
+          -3,
           -160,
           0,
           0,
@@ -2128,7 +2148,7 @@
         "__type__": "TypedArray",
         "ctor": "Float64Array",
         "array": [
-          40,
+          10,
           0,
           0,
           0,
@@ -2949,7 +2969,7 @@
           "_N$string": "MAX",
           "_fontSize": 24,
           "_lineHeight": 24,
-          "_N$horizontalAlign": 1,
+          "_N$horizontalAlign": 2,
           "_N$verticalAlign": 1,
           "_N$fontFamily": "Avenir Next Cyr"
         }
@@ -2969,11 +2989,16 @@
         "width": 53.64,
         "height": 30.24
       },
+      "_anchorPoint": {
+        "__type__": "cc.Vec2",
+        "x": 1,
+        "y": 0.5
+      },
       "_trs": {
         "__type__": "TypedArray",
         "ctor": "Float64Array",
         "array": [
-          -40,
+          -3,
           -130,
           0,
           0,
@@ -3034,7 +3059,7 @@
         "__type__": "TypedArray",
         "ctor": "Float64Array",
         "array": [
-          40,
+          10,
           0,
           0,
           0,
@@ -3073,7 +3098,7 @@
           "_N$string": "MIN",
           "_fontSize": 24,
           "_lineHeight": 24,
-          "_N$horizontalAlign": 1,
+          "_N$horizontalAlign": 2,
           "_N$verticalAlign": 1,
           "_N$fontFamily": "Avenir Next Cyr"
         }
@@ -3093,11 +3118,16 @@
         "width": 45.84,
         "height": 30.24
       },
+      "_anchorPoint": {
+        "__type__": "cc.Vec2",
+        "x": 1,
+        "y": 0.5
+      },
       "_trs": {
         "__type__": "TypedArray",
         "ctor": "Float64Array",
         "array": [
-          -40,
+          -3,
           -160,
           0,
           0,
@@ -3158,7 +3188,7 @@
         "__type__": "TypedArray",
         "ctor": "Float64Array",
         "array": [
-          40,
+          10,
           0,
           0,
           0,

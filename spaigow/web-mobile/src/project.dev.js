@@ -173,6 +173,8 @@ window.__require = function e(t, n, r) {
     var PaiGowTableInfo_1 = require("../lib/PaiGowTableInfo");
     var PaiGowPoker2_1 = require("../lib/PaiGowPoker2");
     var PaiGowMessage_1 = require("../lib/PaiGowMessage");
+    var PaiGowSetting_1 = require("../lib/PaiGowSetting");
+    var PaiGowText_1 = require("../lib/PaiGowText");
     var _a = cc._decorator, ccclass = _a.ccclass, property = _a.property;
     var Bet = function(_super) {
       __extends(Bet, _super);
@@ -210,6 +212,26 @@ window.__require = function e(t, n, r) {
         this.aceHighBetRealTimeValue = aceHighValue;
         this.setFortuneBetValue(fortuneValue);
         this.fortuneBetRealTimeValue = fortuneValue;
+        this.language();
+      };
+      Bet.prototype.language = function() {
+        var lang = PaiGowSetting_1.paiGowSetting.language;
+        this.root["$ui"]["#tip"]["label"].string = PaiGowText_1.paiGowText[lang]["Bet"]["Tip"];
+        this.root["$ui"]["$type"]["$aceHighBet"]["$zone"]["#title"]["label"].string = PaiGowText_1.paiGowText[lang]["Bet"]["AceHighBet"]["title"];
+        this.root["$ui"]["$type"]["$aceHighBet"]["$zone"]["#bet"]["label"].string = PaiGowText_1.paiGowText[lang]["Bet"]["AceHighBet"]["bet"];
+        this.root["$ui"]["$type"]["$aceHighBet"]["#max"]["label"].string = PaiGowText_1.paiGowText[lang]["Bet"]["Max"];
+        this.root["$ui"]["$type"]["$aceHighBet"]["#min"]["label"].string = PaiGowText_1.paiGowText[lang]["Bet"]["Min"];
+        this.root["$ui"]["$type"]["$mainBet"]["$zone"]["#title"]["label"].string = PaiGowText_1.paiGowText[lang]["Bet"]["MainBet"]["title"];
+        this.root["$ui"]["$type"]["$mainBet"]["$zone"]["#bet"]["label"].string = PaiGowText_1.paiGowText[lang]["Bet"]["MainBet"]["bet"];
+        this.root["$ui"]["$type"]["$mainBet"]["#max"]["label"].string = PaiGowText_1.paiGowText[lang]["Bet"]["Max"];
+        this.root["$ui"]["$type"]["$mainBet"]["#min"]["label"].string = PaiGowText_1.paiGowText[lang]["Bet"]["Min"];
+        this.root["$ui"]["$type"]["$fortuneBet"]["$zone"]["#title"]["label"].string = PaiGowText_1.paiGowText[lang]["Bet"]["FortuneBet"]["title"];
+        this.root["$ui"]["$type"]["$fortuneBet"]["$zone"]["#bet"]["label"].string = PaiGowText_1.paiGowText[lang]["Bet"]["FortuneBet"]["bet"];
+        this.root["$ui"]["$type"]["$fortuneBet"]["#max"]["label"].string = PaiGowText_1.paiGowText[lang]["Bet"]["Max"];
+        this.root["$ui"]["$type"]["$fortuneBet"]["#min"]["label"].string = PaiGowText_1.paiGowText[lang]["Bet"]["Min"];
+        this.root["$ui"]["$buttons"]["$clean"]["#title"]["label"].string = PaiGowText_1.paiGowText[lang]["Bet"]["Buttons"]["Clean"];
+        this.root["$ui"]["$buttons"]["$cancel"]["#title"]["label"].string = PaiGowText_1.paiGowText[lang]["Bet"]["Buttons"]["Cancel"];
+        this.root["$ui"]["$buttons"]["$done"]["#title"]["label"].string = PaiGowText_1.paiGowText[lang]["Bet"]["Buttons"]["Done"];
       };
       Bet.prototype.setAceHighBetValue = function(value) {
         this.aceHighBetValue = value;
@@ -313,7 +335,7 @@ window.__require = function e(t, n, r) {
           return;
         }
         if (!this.checkEnableBet()) {
-          PaiGowContext_1.getAlert().show(PaiGowMessage_1.PaiGowMessage.NotEnoughBalanceForBet);
+          PaiGowContext_1.getAlert().show(PaiGowMessage_1.PaiGowMessageType.NotEnoughBalanceForBet);
           return;
         }
         PaiGowPoker2_1.paiGowPoker2.placeBet(PaiGowTableInfo_1.gamerInfo.gamerId, this.mainBetValue, this.aceHighBetValue, this.fortuneBetValue).catch(function(err) {
@@ -343,7 +365,7 @@ window.__require = function e(t, n, r) {
             _this.table.updateHandCard(res["playerCards"]);
             _this.table.updateDealer(res["dealerCards"], res["dealerLowHand"]);
             _this.table.updateBet(res["mainBet"], res["sideBet"], res["fortuneBet"]);
-            _this.table.setMessage(PaiGowMessage_1.PaiGowMessage.Tap2Card);
+            _this.table.setMessage(PaiGowMessage_1.PaiGowMessageType.Tap2Card);
             _this.table.showTableButtons(PaiGowTableInfo_1.TABLE_BUTTONS.SPLIT);
             _this.table.enableButtonClick(PaiGowTableInfo_1.TABLE_BUTTON.HOUSEWAY, true);
             _this.table.enableButtonClick(PaiGowTableInfo_1.TABLE_BUTTON.SPLIT, true);
@@ -441,7 +463,9 @@ window.__require = function e(t, n, r) {
     "../lib/PaiGowContext": "PaiGowContext",
     "../lib/PaiGowMessage": "PaiGowMessage",
     "../lib/PaiGowPoker2": "PaiGowPoker2",
-    "../lib/PaiGowTableInfo": "PaiGowTableInfo"
+    "../lib/PaiGowSetting": "PaiGowSetting",
+    "../lib/PaiGowTableInfo": "PaiGowTableInfo",
+    "../lib/PaiGowText": "PaiGowText"
   } ],
   Cap: [ function(require, module, exports) {
     "use strict";
@@ -720,6 +744,8 @@ window.__require = function e(t, n, r) {
     var CocosUtils_1 = require("../lib/CocosUtils");
     var PaiGowContext_1 = require("../lib/PaiGowContext");
     var PaiGowPoker2_1 = require("../lib/PaiGowPoker2");
+    var PaiGowSetting_1 = require("../lib/PaiGowSetting");
+    var PaiGowText_1 = require("../lib/PaiGowText");
     var _a = cc._decorator, ccclass = _a.ccclass, property = _a.property;
     var Dealer = function(_super) {
       __extends(Dealer, _super);
@@ -731,16 +757,25 @@ window.__require = function e(t, n, r) {
       Dealer.prototype.init = function() {
         this.root = CocosUtils_1.default.tree(this.node, {});
       };
+      Dealer.prototype.start = function() {
+        this.language();
+      };
+      Dealer.prototype.language = function() {
+        var lang = PaiGowSetting_1.paiGowSetting.language;
+        this.root["$high"]["#title"]["label"].string = PaiGowText_1.paiGowText[lang]["Dealer"]["High"];
+        this.root["$low"]["#title"]["label"].string = PaiGowText_1.paiGowText[lang]["Dealer"]["Low"];
+        this.root["$aceHigh"]["#title"]["label"].string = PaiGowText_1.paiGowText[lang]["Dealer"]["AceHighPush"];
+      };
       Dealer.prototype.setCards = function(low, high, doFadeOutType) {
         var _this = this;
         void 0 === doFadeOutType && (doFadeOutType = false);
         this.clearCards();
         var lowType = PaiGowPoker2_1.paigowUtils.bitfieldCards(low);
         low = PaiGowPoker2_1.paigowUtils.sortCard(lowType, low);
-        var lowTypeName = PaiGowPoker2_1.paigowUtils.typeName(lowType);
+        var lowTypeName = PaiGowPoker2_1.paigowUtils.typeName(lowType, PaiGowSetting_1.paiGowSetting.language);
         var highType = PaiGowPoker2_1.paigowUtils.bitfieldCards(high);
         high = PaiGowPoker2_1.paigowUtils.sortCard(highType, high);
-        var highTypeName = PaiGowPoker2_1.paigowUtils.typeName(highType);
+        var highTypeName = PaiGowPoker2_1.paigowUtils.typeName(highType, PaiGowSetting_1.paiGowSetting.language);
         var lowNodes = PaiGowContext_1.getCardSpriteNodes(low);
         lowNodes.forEach(function(item) {
           _this.root["$low"]["cards"].addChild(item);
@@ -799,7 +834,9 @@ window.__require = function e(t, n, r) {
   }, {
     "../lib/CocosUtils": "CocosUtils",
     "../lib/PaiGowContext": "PaiGowContext",
-    "../lib/PaiGowPoker2": "PaiGowPoker2"
+    "../lib/PaiGowPoker2": "PaiGowPoker2",
+    "../lib/PaiGowSetting": "PaiGowSetting",
+    "../lib/PaiGowText": "PaiGowText"
   } ],
   Delete: [ function(require, module, exports) {
     "use strict";
@@ -2450,18 +2487,53 @@ window.__require = function e(t, n, r) {
     Object.defineProperty(exports, "__esModule", {
       value: true
     });
-    var PaiGowMessage;
-    (function(PaiGowMessage) {
-      PaiGowMessage["UnInstallTronLink"] = "Please install TronLink.";
-      PaiGowMessage["SplitIllegal"] = "High card must be higher rank than low card.";
-      PaiGowMessage["SureToLeave"] = "Leave PaiGow ?";
-      PaiGowMessage["Tap2Card"] = "Tap 2 cards for the low hand.";
-      PaiGowMessage["PleaseSplitCard"] = "Please split your cards.";
-      PaiGowMessage["PleaseBet"] = "Please bet for next round.";
-      PaiGowMessage["Win"] = "You win: ";
-      PaiGowMessage["Lose"] = "You lose: ";
-      PaiGowMessage["NotEnoughBalanceForBet"] = "Insufficient Balance.";
-    })(PaiGowMessage = exports.PaiGowMessage || (exports.PaiGowMessage = {}));
+    var PaiGowMessageType;
+    (function(PaiGowMessageType) {
+      PaiGowMessageType["SplitIllegal"] = "SplitIllegal";
+      PaiGowMessageType["SureToLeave"] = "SureToLeave";
+      PaiGowMessageType["Tap2Card"] = "Tap2Card";
+      PaiGowMessageType["PleaseSplitCard"] = "PleaseSplitCard";
+      PaiGowMessageType["PleaseBet"] = "PleaseBet";
+      PaiGowMessageType["Win"] = "Win";
+      PaiGowMessageType["Lose"] = "Lose";
+      PaiGowMessageType["Total"] = "Total";
+      PaiGowMessageType["NotEnoughBalanceForBet"] = "NotEnoughBalanceForBet";
+    })(PaiGowMessageType = exports.PaiGowMessageType || (exports.PaiGowMessageType = {}));
+    var EN = {
+      SplitIllegal: "High card must be higher rank than low card.",
+      SureToLeave: "Leave PaiGow ?",
+      Tap2Card: "Tap 2 cards for the low hand.",
+      PleaseSplitCard: "Please split your cards.",
+      PleaseBet: "Please bet for next round.",
+      Win: "You win: ",
+      Lose: "You lose: ",
+      Total: " in total.",
+      NotEnoughBalanceForBet: "Insufficient Balance."
+    };
+    var CN = {
+      SplitIllegal: "\u9ad8\u624b\u5361\u5fc5\u987b\u6bd4\u4f4e\u624b\u5361\u66f4\u9ad8\u7b49\u7ea7",
+      SureToLeave: "\u79bb\u5f00\u6e38\u620f?",
+      Tap2Card: "\u70b9\u51fb\u4e24\u5f20\u624b\u5361\u505a\u4e3a\u4f4e\u624b\u5361",
+      PleaseSplitCard: "\u8bf7\u5206\u53d1\u4f60\u7684\u5361",
+      PleaseBet: "\u8bf7\u4e0b\u6ce8\u4e0b\u4e00\u8f6e",
+      Win: "\u4f60\u7e3d\u5171\u8d62\u4e86: ",
+      Lose: "\u4f60\u7e3d\u5171\u8f93\u4e86: ",
+      Total: "",
+      NotEnoughBalanceForBet: "\u4f59\u989d\u4e0d\u8db3"
+    };
+    var Result = "";
+    var setResult = function(result) {
+      Result = result;
+    };
+    var getResult = function() {
+      return Result;
+    };
+    exports.PaiGowMessage = {
+      EN: EN,
+      CN: CN,
+      setResult: setResult,
+      getResult: getResult
+    };
     cc._RF.pop();
   }, {} ],
   PaiGowPlayer: [ function(require, module, exports) {
@@ -2863,9 +2935,11 @@ window.__require = function e(t, n, r) {
         }
         return false;
       },
-      typeName: function(type) {
+      typeName: function(type, lang) {
+        void 0 === lang && (lang = null);
         var nameArray = [ "", "High Card", "Pair", "Two Pair", "Three of a Kind", "Straight", "Flush", "Full House", "Four of a Kind", "Straight Flush", "Royal Flush", "Five Aces" ];
-        return nameArray[type >> 20 & 15];
+        var nameArrayCN = [ "", "\u9ad8\u724c", "\u5bf9\u5b50", "\u4e24\u5bf9", "\u4e09\u6761", "\u987a\u5b50", "\u540c\u82b1", "Full House", "\u56db\u6761", "\u540c\u82b1\u987a", "\u7687\u5bb6\u540c\u82b1\u987a", "\u4e94\u4e2aA" ];
+        return null === lang || "EN" === lang ? nameArray[type >> 20 & 15] : nameArrayCN[type >> 20 & 15];
       },
       remainCards: function(lowCards, allCards) {
         var res = [];
@@ -4428,34 +4502,67 @@ window.__require = function e(t, n, r) {
       MainBetResult[MainBetResult["ACE_HIGH_PUSH"] = 3] = "ACE_HIGH_PUSH";
     })(MainBetResult = exports.MainBetResult || (exports.MainBetResult = {}));
     exports.resultDescription = {
-      main: {
-        0: "",
-        1: "MAIN 2x",
-        2: "",
-        3: "PUSH"
+      EN: {
+        main: {
+          0: "PUSH",
+          1: "",
+          2: "",
+          3: "ACE HIGH PUSH"
+        },
+        aceHigh: {
+          0: "",
+          1: "Dealer Ace High w/o Joker 5x",
+          2: "Dealer Ace High w/ Joker 15x",
+          3: "Both Dealer and Player Ace High 40x"
+        },
+        fortune: {
+          0: "",
+          1: "",
+          2: "",
+          3: "",
+          4: "Three of a Kind 3x",
+          5: "Straight 2x",
+          6: "Flush 4x",
+          7: "Full House 5x",
+          8: "Four of a Kind 25x",
+          9: "Straight Flush 50x",
+          10: "Royal Flush 150x",
+          11: "Five Aces 400x",
+          12: "7-card Straight Flush w/ Joker 1000x",
+          13: "Royal Flush + Royal Match 2000x",
+          14: "7-card Straight Flush w/o Joker 8000x"
+        }
       },
-      aceHigh: {
-        0: "",
-        1: "Dealer Ace High w/o Joker 5x",
-        2: "Dealer Ace High w/ Joker 15x",
-        3: "Both Dealer and Player Ace High 40x"
-      },
-      fortune: {
-        0: "",
-        1: "",
-        2: "",
-        3: "",
-        4: "Three of a Kind 3x",
-        5: "Straight 2x",
-        6: "Flush 4x",
-        7: "Full House 5x",
-        8: "Four of a Kind 25x",
-        9: "Straight Flush 50x",
-        10: "Royal Flush 150x",
-        11: "Five Aces 400x",
-        12: "7-card Straight Flush w/ Joker 1000x",
-        13: "Royal Flush + Royal Match 2000x",
-        14: "7-card Straight Flush w/o Joker 8000x"
+      CN: {
+        main: {
+          0: "\u5e73\u5c40",
+          1: "",
+          2: "",
+          3: "\u738b\u724c\u9ad8\u63a8\u5e73\u5c40"
+        },
+        aceHigh: {
+          0: "",
+          1: "\u5e84\u5bb6\u4e3a\u4e00\u822c\u4e03\u5f20 Ace \u5927\u724c\u724c\u4e5d! 5X \u6d3e\u5f69!",
+          2: "\u5e84\u5bb6\u4e3a\u6709\u738b\u724c\u7684\u4e03\u5f20 Ace \u5927\u724c\u724c\u4e5d! 15X \u6d3e\u5f69!",
+          3: "\u5e84\u5bb6\u548c\u73a9\u5bb6\u90fd\u4e3a\u4e03\u5f20 Ace \u5927\u724c\u724c\u4e5d! 40X \u6d3e\u5f69!"
+        },
+        fortune: {
+          0: "",
+          1: "",
+          2: "",
+          3: "",
+          4: "\u4e09\u5bf9(\u4e09\u6761), 3X \u6d3e\u5f69!",
+          5: "\u987a\u5b50\uff08\u86c7\uff09, 2X \u6d3e\u5f69!",
+          6: "\u540c\u82b1, 4X \u6d3e\u5f69!",
+          7: "\u846b\u82a6, 5X \u6d3e\u5f69!",
+          8: "\u56db\u6761, 25X \u6d3e\u5f69!",
+          9: "\u540c\u82b1\u987a, 50X \u6d3e\u5f69!",
+          10: "\u7687\u5bb6\u540c\u82b1\u987a, 150X \u6d3e\u5f69!",
+          11: "\u4e94\u4e2aA, 400X \u6d3e\u5f69!",
+          12: "\u4e03\u5f20\u540c\u82b1\u987a (\u4f7f\u7528\u738b\u724c Joker), 1000X \u6d3e\u5f69!",
+          13: "\u7687\u5bb6\u540c\u82b1\u987a + \u7687\u5bb6\u914d\u5bf9, 2000X \u6d3e\u5f69!",
+          14: "\u4e03\u5f20\u540c\u82b1\u987a (\u4e0d\u4f7f\u7528\u738b\u724c Joker), 8000X \u6d3e\u5f69!"
+        }
       }
     };
     cc._RF.pop();
@@ -4496,6 +4603,8 @@ window.__require = function e(t, n, r) {
     var PaiGowTableInfo_1 = require("../lib/PaiGowTableInfo");
     var PaiGowPoker2_1 = require("../lib/PaiGowPoker2");
     var PaiGowMessage_1 = require("../lib/PaiGowMessage");
+    var PaiGowSetting_1 = require("../lib/PaiGowSetting");
+    var PaiGowText_1 = require("../lib/PaiGowText");
     var _a = cc._decorator, ccclass = _a.ccclass, property = _a.property;
     var PaiGowTable = function(_super) {
       __extends(PaiGowTable, _super);
@@ -4507,6 +4616,7 @@ window.__require = function e(t, n, r) {
         _this.TableCard = null;
         _this.ResultEffect = null;
         _this.chips = null;
+        _this.paiGowMessageType = null;
         return _this;
       }
       PaiGowTable.prototype.init = function() {
@@ -4528,6 +4638,20 @@ window.__require = function e(t, n, r) {
       PaiGowTable.prototype.start = function() {
         this.checkGameStatus();
       };
+      PaiGowTable.prototype.language = function() {
+        var lang = PaiGowSetting_1.paiGowSetting.language;
+        this.root["$ui"]["$bet"]["$aceHighBet"]["$zone"]["#title"]["label"].string = PaiGowText_1.paiGowText[lang]["Bet"]["AceHighBet"]["title"];
+        this.root["$ui"]["$bet"]["$aceHighBet"]["$zone"]["#bet"]["label"].string = PaiGowText_1.paiGowText[lang]["Bet"]["AceHighBet"]["bet"];
+        this.root["$ui"]["$bet"]["$mainBet"]["$zone"]["#title"]["label"].string = PaiGowText_1.paiGowText[lang]["Bet"]["MainBet"]["title"];
+        this.root["$ui"]["$bet"]["$mainBet"]["$zone"]["#bet"]["label"].string = PaiGowText_1.paiGowText[lang]["Bet"]["MainBet"]["bet"];
+        this.root["$ui"]["$bet"]["$fortuneBet"]["$zone"]["#title"]["label"].string = PaiGowText_1.paiGowText[lang]["Bet"]["FortuneBet"]["title"];
+        this.root["$ui"]["$bet"]["$fortuneBet"]["$zone"]["#bet"]["label"].string = PaiGowText_1.paiGowText[lang]["Bet"]["FortuneBet"]["bet"];
+        this.root["$buttons"]["$split"]["$houseWay"]["#title"]["label"].string = PaiGowText_1.paiGowText[lang]["PaiGowTable"]["Buttons"]["HouseWay"];
+        this.root["$buttons"]["$split"]["$split"]["#title"]["label"].string = PaiGowText_1.paiGowText[lang]["PaiGowTable"]["Buttons"]["Split"];
+        this.root["$buttons"]["$placeBet"]["$leave"]["#title"]["label"].string = PaiGowText_1.paiGowText[lang]["PaiGowTable"]["Buttons"]["Leave"];
+        this.root["$buttons"]["$placeBet"]["$bet"]["#title"]["label"].string = PaiGowText_1.paiGowText[lang]["PaiGowTable"]["Buttons"]["Bet"];
+        this.setMessage();
+      };
       PaiGowTable.prototype.checkGameStatus = function() {
         var _this = this;
         PaiGowPoker2_1.paiGowPoker2.getGameStatus(PaiGowTableInfo_1.gamerInfo.gamerId).catch(function(err) {
@@ -4541,12 +4665,12 @@ window.__require = function e(t, n, r) {
             _this.updateHandCard(res["playerCards"]);
             _this.updateDealer(res["dealerCards"], res["dealerLowHand"]);
             _this.updateBet(res["mainBet"], res["sideBet"], res["fortuneBet"]);
-            _this.setMessage(PaiGowMessage_1.PaiGowMessage.Tap2Card);
+            _this.setMessage(PaiGowMessage_1.PaiGowMessageType.Tap2Card);
             _this.showTableButtons(PaiGowTableInfo_1.TABLE_BUTTONS.SPLIT);
             _this.enableButtonClick(PaiGowTableInfo_1.TABLE_BUTTON.HOUSEWAY, true);
             _this.enableButtonClick(PaiGowTableInfo_1.TABLE_BUTTON.SPLIT, true);
           } else {
-            _this.setMessage(PaiGowMessage_1.PaiGowMessage.PleaseBet);
+            _this.setMessage(PaiGowMessage_1.PaiGowMessageType.PleaseBet);
             _this.showTableButtons(PaiGowTableInfo_1.TABLE_BUTTONS.PLACE_BET);
             _this.enableButtonClick(PaiGowTableInfo_1.TABLE_BUTTON.BET, true);
             _this.enableButtonClick(PaiGowTableInfo_1.TABLE_BUTTON.LEAVE, true);
@@ -4571,7 +4695,7 @@ window.__require = function e(t, n, r) {
           var lowRank = PaiGowPoker2_1.paigowUtils.bitfieldCards(pickCards);
           var unPickCards = handCardJs_1.getCards(false);
           var highRank = PaiGowPoker2_1.paigowUtils.bitfieldCards(unPickCards);
-          if (handCardJs_1.getPickedCount() !== handCardJs_1.pickLimit) PaiGowContext_1.getAlert().show(PaiGowMessage_1.PaiGowMessage.Tap2Card); else if (lowRank >= highRank) PaiGowContext_1.getAlert().show(PaiGowMessage_1.PaiGowMessage.SplitIllegal); else {
+          if (handCardJs_1.getPickedCount() !== handCardJs_1.pickLimit) PaiGowContext_1.getAlert().show(PaiGowMessage_1.PaiGowMessageType.Tap2Card); else if (lowRank >= highRank) PaiGowContext_1.getAlert().show(PaiGowMessage_1.PaiGowMessageType.SplitIllegal); else {
             this.enableButtonClick(PaiGowTableInfo_1.TABLE_BUTTON.HOUSEWAY, false);
             this.enableButtonClick(PaiGowTableInfo_1.TABLE_BUTTON.SPLIT, false);
             handCardJs_1.enableClickCards(false);
@@ -4622,7 +4746,7 @@ window.__require = function e(t, n, r) {
         });
       };
       PaiGowTable.prototype.onLeaveClick = function() {
-        PaiGowContext_1.getPopup().showOption(PaiGowMessage_1.PaiGowMessage.SureToLeave, function() {
+        PaiGowContext_1.getPopup().showOption(PaiGowMessage_1.PaiGowMessageType.SureToLeave, function() {
           cc.game.end();
         }, false, 0);
       };
@@ -4658,7 +4782,7 @@ window.__require = function e(t, n, r) {
         var totalWin = mainBetWin + aceHighBetWin + fortuneBetWin;
         var totalBet = mainBet + aceHighBet + fortuneBet;
         var result = totalWin - totalBet;
-        result >= 0 ? this.setMessage(PaiGowMessage_1.PaiGowMessage.Win + result + " in total.\n" + PaiGowMessage_1.PaiGowMessage.PleaseBet) : this.setMessage(PaiGowMessage_1.PaiGowMessage.Lose + -result + " in total.\n" + PaiGowMessage_1.PaiGowMessage.PleaseBet);
+        result >= 0 ? this.setMessage(PaiGowMessage_1.PaiGowMessageType.Win, result + "") : this.setMessage(PaiGowMessage_1.PaiGowMessageType.Lose, result + "");
         var mainMessage = "";
         mainBetResult == PaiGowTableInfo_1.MainBetResult.PUSH ? mainMessage += "PUSH" : mainBetResult == PaiGowTableInfo_1.MainBetResult.ACE_HIGH_PUSH ? mainMessage += "ACE HIGH PUSH" : mainBetWin > 0 && (mainMessage += mainBetWin);
         var aciHighMessages = [];
@@ -4745,8 +4869,27 @@ window.__require = function e(t, n, r) {
           dealerJs.setCards(lowCards, high, doFadeOutType);
         }
       };
-      PaiGowTable.prototype.setMessage = function(message) {
-        this.root["$ui"]["message"].active = "" !== message;
+      PaiGowTable.prototype.setMessage = function(messageType, result) {
+        void 0 === messageType && (messageType = null);
+        void 0 === result && (result = "");
+        null === messageType ? messageType = this.paiGowMessageType : this.paiGowMessageType = messageType;
+        var message = "";
+        var lang = PaiGowSetting_1.paiGowSetting.language;
+        switch (messageType) {
+         case PaiGowMessage_1.PaiGowMessageType.Win:
+          "" !== result && PaiGowMessage_1.PaiGowMessage.setResult(result);
+          message = PaiGowMessage_1.PaiGowMessage[lang][PaiGowMessage_1.PaiGowMessageType.Win] + PaiGowMessage_1.PaiGowMessage.getResult() + PaiGowMessage_1.PaiGowMessage[lang][PaiGowMessage_1.PaiGowMessageType.Total];
+          message += "\n " + PaiGowMessage_1.PaiGowMessage[lang][PaiGowMessage_1.PaiGowMessageType.PleaseBet];
+          break;
+
+         case PaiGowMessage_1.PaiGowMessageType.Lose:
+          message = PaiGowMessage_1.PaiGowMessage[lang][PaiGowMessage_1.PaiGowMessageType.Lose] + "-" + PaiGowMessage_1.PaiGowMessage.getResult() + PaiGowMessage_1.PaiGowMessage[lang][PaiGowMessage_1.PaiGowMessageType.Total];
+          message += "\n " + PaiGowMessage_1.PaiGowMessage[lang][PaiGowMessage_1.PaiGowMessageType.PleaseBet];
+          break;
+
+         default:
+          message = PaiGowMessage_1.PaiGowMessage[lang][messageType];
+        }
         this.root["$ui"]["$message"]["#title"]["label"].string = message;
       };
       PaiGowTable.prototype.enableButtonClick = function(button, enable) {
@@ -4831,10 +4974,10 @@ window.__require = function e(t, n, r) {
         this.root["$ui"]["$bet"]["$aceHighBet"]["result"].active = true;
         this.root["$ui"]["$bet"]["$mainBet"]["result"].active = true;
         this.root["$ui"]["$bet"]["$fortuneBet"]["result"].active = true;
-        this.root["$ui"]["$bet"]["$aceHighBet"]["$result"]["#bet"]["label"].string = mainBet + "";
-        this.root["$ui"]["$bet"]["$aceHighBet"]["$result"]["#win"]["label"].string = mainBetWin + "";
-        this.root["$ui"]["$bet"]["$mainBet"]["$result"]["#bet"]["label"].string = aceHighBet + "";
-        this.root["$ui"]["$bet"]["$mainBet"]["$result"]["#win"]["label"].string = aceHighBetWin + "";
+        this.root["$ui"]["$bet"]["$aceHighBet"]["$result"]["#bet"]["label"].string = aceHighBet + "";
+        this.root["$ui"]["$bet"]["$aceHighBet"]["$result"]["#win"]["label"].string = aceHighBetWin + "";
+        this.root["$ui"]["$bet"]["$mainBet"]["$result"]["#bet"]["label"].string = mainBet + "";
+        this.root["$ui"]["$bet"]["$mainBet"]["$result"]["#win"]["label"].string = mainBetWin + "";
         this.root["$ui"]["$bet"]["$fortuneBet"]["$result"]["#bet"]["label"].string = fortuneBet + "";
         this.root["$ui"]["$bet"]["$fortuneBet"]["$result"]["#win"]["label"].string = fortuneBetWin + "";
       };
@@ -4865,7 +5008,9 @@ window.__require = function e(t, n, r) {
     "../lib/PaiGowContext": "PaiGowContext",
     "../lib/PaiGowMessage": "PaiGowMessage",
     "../lib/PaiGowPoker2": "PaiGowPoker2",
-    "../lib/PaiGowTableInfo": "PaiGowTableInfo"
+    "../lib/PaiGowSetting": "PaiGowSetting",
+    "../lib/PaiGowTableInfo": "PaiGowTableInfo",
+    "../lib/PaiGowText": "PaiGowText"
   } ],
   PaiGowText: [ function(require, module, exports) {
     "use strict";
@@ -4992,9 +5137,41 @@ window.__require = function e(t, n, r) {
         }
       },
       PaiGowTable: {
-        Buttons: {}
+        Buttons: {
+          HouseWay: "HOUSE WAY",
+          Split: "SPLIT",
+          Leave: "LEAVE",
+          Bet: "BET"
+        }
       },
-      Bet: {}
+      Bet: {
+        Tip: "Tap chip to place the bets",
+        AceHighBet: {
+          title: "Ace High",
+          bet: "Bet"
+        },
+        MainBet: {
+          title: "Main",
+          bet: "Bet"
+        },
+        FortuneBet: {
+          title: "Fortune",
+          bet: "Bet"
+        },
+        Max: "MAX",
+        Min: "MIN",
+        Buttons: {
+          Clean: "CLEAN",
+          Cancel: "CANCEL",
+          Done: "DONE"
+        }
+      },
+      TableCard: {
+        Low: "LOW HAND",
+        High: "HIGH HAND",
+        Push: "PUSH"
+      },
+      Dealer: {}
     };
     var CN = {
       Menu: [ {
@@ -5112,6 +5289,46 @@ window.__require = function e(t, n, r) {
             } ]
           }
         }
+      },
+      PaiGowTable: {
+        Buttons: {
+          HouseWay: "\u81ea\u52a8\u5206\u724c",
+          Split: "\u5206\u724c",
+          Leave: "\u79bb\u5f00",
+          Bet: "\u4e0b\u6ce8"
+        }
+      },
+      Bet: {
+        Tip: "\u70b9 \u51fb \u7b79 \u7801 \u4e0b \u6ce8",
+        AceHighBet: {
+          title: "Ace",
+          bet: "\u724c\u4e5d\u6ce8"
+        },
+        MainBet: {
+          title: "\u4e3b\u8d4c\u6ce8",
+          bet: ""
+        },
+        FortuneBet: {
+          title: "\u5e78\u8fd0",
+          bet: "\u7ea2\u5229\u6ce8"
+        },
+        Max: "\u6700\u9ad8\u6ce8",
+        Min: "\u6700\u4f4e\u6ce8",
+        Buttons: {
+          Clear: "\u6e05\u9664",
+          Cancel: "\u53d6\u6d88",
+          Done: "\u5b8c\u6210"
+        }
+      },
+      TableCard: {
+        Low: "\u4f4e\u624b\u724c",
+        High: "\u9ad8\u624b\u724c",
+        Push: "\u5e73\u5c40"
+      },
+      Dealer: {
+        Low: "\u4f4e\u624b\u724c",
+        High: "\u9ad8\u624b\u724c",
+        AceHighPush: "\u738b\u724c\u9ad8\u63a8\u5e73\u5c40"
       }
     };
     exports.paiGowText = {
@@ -5514,6 +5731,10 @@ window.__require = function e(t, n, r) {
       ResultEffect.prototype.init = function() {
         this.root = CocosUtils_1.default.tree(this.node, {});
       };
+      ResultEffect.prototype.start = function() {
+        this.language();
+      };
+      ResultEffect.prototype.language = function() {};
       ResultEffect.prototype.play = function(youWin, mainMessage, aceHighMessages, fortuneMessages) {
         var _this = this;
         var messageActions = [];
@@ -5632,6 +5853,8 @@ window.__require = function e(t, n, r) {
     var CocosUtils_1 = require("../lib/CocosUtils");
     var PaiGowContext_1 = require("../lib/PaiGowContext");
     var PaiGowPoker2_1 = require("../lib/PaiGowPoker2");
+    var PaiGowSetting_1 = require("../lib/PaiGowSetting");
+    var PaiGowText_1 = require("../lib/PaiGowText");
     var _a = cc._decorator, ccclass = _a.ccclass, property = _a.property;
     var TableCard = function(_super) {
       __extends(TableCard, _super);
@@ -5643,6 +5866,15 @@ window.__require = function e(t, n, r) {
       TableCard.prototype.init = function() {
         this.root = CocosUtils_1.default.tree(this.node, {});
       };
+      TableCard.prototype.start = function() {
+        this.language();
+      };
+      TableCard.prototype.language = function() {
+        var lang = PaiGowSetting_1.paiGowSetting.language;
+        this.root["#high"]["label"].string = PaiGowText_1.paiGowText[lang]["TableCard"]["High"];
+        this.root["#low"]["label"].string = PaiGowText_1.paiGowText[lang]["TableCard"]["Low"];
+        this.root["#push"]["label"].string = PaiGowText_1.paiGowText[lang]["TableCard"]["Push"];
+      };
       TableCard.prototype.setLowCard = function(cards, lockIt, doFadeOutType) {
         this.root["low"].active = true;
         this.root["lowCards"].active = true;
@@ -5650,7 +5882,7 @@ window.__require = function e(t, n, r) {
         var cardType = PaiGowPoker2_1.paigowUtils.bitfieldCards(cards);
         cards = PaiGowPoker2_1.paigowUtils.sortCard(cardType, cards);
         if (doFadeOutType) {
-          var typeName = PaiGowPoker2_1.paigowUtils.typeName(cardType);
+          var typeName = PaiGowPoker2_1.paigowUtils.typeName(cardType, PaiGowSetting_1.paiGowSetting.language);
           this.doFadeOutTypeLow(typeName);
         }
         var lowCards = this.root["lowCards"].children;
@@ -5665,7 +5897,7 @@ window.__require = function e(t, n, r) {
         var cardType = PaiGowPoker2_1.paigowUtils.bitfieldCards(cards);
         cards = PaiGowPoker2_1.paigowUtils.sortCard(cardType, cards);
         if (doFadeOutType) {
-          var typeName = PaiGowPoker2_1.paigowUtils.typeName(cardType);
+          var typeName = PaiGowPoker2_1.paigowUtils.typeName(cardType, PaiGowSetting_1.paiGowSetting.language);
           this.doFadeOutTypeHigh(typeName);
         }
         var highCards = this.root["highCards"].children;
@@ -5747,7 +5979,9 @@ window.__require = function e(t, n, r) {
   }, {
     "../lib/CocosUtils": "CocosUtils",
     "../lib/PaiGowContext": "PaiGowContext",
-    "../lib/PaiGowPoker2": "PaiGowPoker2"
+    "../lib/PaiGowPoker2": "PaiGowPoker2",
+    "../lib/PaiGowSetting": "PaiGowSetting",
+    "../lib/PaiGowText": "PaiGowText"
   } ],
   Tree: [ function(require, module, exports) {
     "use strict";
