@@ -587,7 +587,7 @@ window.__require = function e(t, n, r) {
       Card.prototype.onCardClick = function() {
         if (!this.enableClick) return;
         this.toggleIsPicked();
-        this.handCard.getPickedCount() === this.handCard.pickLimit ? this.handCard.table.setMessage(PaiGowMessage_1.PaiGowMessage.PleaseSplitCard) : this.handCard.table.setMessage(PaiGowMessage_1.PaiGowMessage.Tap2Card);
+        this.handCard.getPickedCount() === this.handCard.pickLimit ? this.handCard.table.setMessage(PaiGowMessage_1.PaiGowMessageType.PleaseSplitCard) : this.handCard.table.setMessage(PaiGowMessage_1.PaiGowMessageType.Tap2Card);
       };
       Card.prototype.toggleIsPicked = function() {
         if (this.isPicked) {
@@ -2181,7 +2181,8 @@ window.__require = function e(t, n, r) {
         PaiGowSetting_1.paiGowSetting.triggerLanguage(PaiGowContext_1.getCurrentSceneNode());
         var item = e.target;
         var itemJs = item.getComponent("MenuItem");
-        itemJs.setValueLabel(PaiGowSetting_1.paiGowSetting.language);
+        var lang = PaiGowSetting_1.paiGowSetting.language;
+        itemJs.setValueLabel(PaiGowText_1.paiGowText[lang]["MenuOption"]["language"]);
       };
       Menu.prototype.onBackgroundMusicClick = function(e) {
         var item = e.target;
@@ -4643,6 +4644,7 @@ window.__require = function e(t, n, r) {
         var lang = PaiGowSetting_1.paiGowSetting.language;
         this.root["$ui"]["$bet"]["$aceHighBet"]["$zone"]["#title"]["label"].string = PaiGowText_1.paiGowText[lang]["Bet"]["AceHighBet"]["title"];
         this.root["$ui"]["$bet"]["$aceHighBet"]["$zone"]["#bet"]["label"].string = PaiGowText_1.paiGowText[lang]["Bet"]["AceHighBet"]["bet"];
+        this.root["$ui"]["$bet"]["$mainBet"]["$zone"]["title"].y = PaiGowText_1.paiGowText[lang]["Bet"]["MainBet"]["y"];
         this.root["$ui"]["$bet"]["$mainBet"]["$zone"]["#title"]["label"].string = PaiGowText_1.paiGowText[lang]["Bet"]["MainBet"]["title"];
         this.root["$ui"]["$bet"]["$mainBet"]["$zone"]["#bet"]["label"].string = PaiGowText_1.paiGowText[lang]["Bet"]["MainBet"]["bet"];
         this.root["$ui"]["$bet"]["$fortuneBet"]["$zone"]["#title"]["label"].string = PaiGowText_1.paiGowText[lang]["Bet"]["FortuneBet"]["title"];
@@ -5032,6 +5034,11 @@ window.__require = function e(t, n, r) {
         title: "Language",
         content: "Language"
       } ],
+      MenuOption: {
+        ON: "ON",
+        OFF: "OFF",
+        language: "EN"
+      },
       GameRule: {
         Buttons: {
           HowToPlay: "\u2660 How to Play",
@@ -5191,6 +5198,11 @@ window.__require = function e(t, n, r) {
         title: "Language",
         content: "\u8bed\u8a00"
       } ],
+      MenuOption: {
+        ON: "\u5f00",
+        OFF: "\u5173",
+        language: "\u7b80\u4e2d"
+      },
       GameRule: {
         Buttons: {
           HowToPlay: "\u2660 \u6e38\u620f\u89c4\u5219",
