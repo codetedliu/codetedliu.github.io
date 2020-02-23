@@ -4253,6 +4253,33 @@
   {
     "__type__": "cc.SpriteFrame",
     "content": {
+      "name": "cn-youwin",
+      "texture": "e6FkUfHhVAS7TvXLaSmZsz",
+      "rect": [
+        1,
+        1,
+        156,
+        50
+      ],
+      "offset": [
+        0,
+        0
+      ],
+      "originalSize": [
+        158,
+        52
+      ],
+      "capInsets": [
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  },
+  {
+    "__type__": "cc.SpriteFrame",
+    "content": {
       "name": "500",
       "texture": "01m/XmUwBB1YpNjUOTzNZY",
       "rect": [
@@ -7485,7 +7512,35 @@
           "__type__": "e22c0yvSGBAHJvD2VOWgRle",
           "node": {
             "__id__": 1
-          }
+          },
+          "CN": [
+            {
+              "__uuid__": "24Pz6CUp5Pg66UygRnArjy"
+            },
+            {
+              "__uuid__": "cfTDTRd+NO8IcGg4Og3WLM"
+            },
+            {
+              "__uuid__": "d4APkK1RJATrkwQszeBM4h"
+            },
+            {
+              "__uuid__": "cdMABdrUNPyoAJDzys6zZo"
+            }
+          ],
+          "EN": [
+            {
+              "__uuid__": "far/B02xhHN6DXcRfmjCXy"
+            },
+            {
+              "__uuid__": "deS8lqR2dN/ZEeMrKC7N3l"
+            },
+            {
+              "__uuid__": "fe20eOdJNA8ImurqyrBJn6"
+            },
+            {
+              "__uuid__": "a9Jzax/+ZFD5zH6JFJdhrf"
+            }
+          ]
         }
       ],
       "_prefab": {
@@ -7609,7 +7664,8 @@
           ],
           "_spriteFrame": {
             "__uuid__": "far/B02xhHN6DXcRfmjCXy"
-          }
+          },
+          "_sizeMode": 2
         }
       ],
       "_prefab": {
@@ -7625,7 +7681,7 @@
       "_opacity": 0,
       "_contentSize": {
         "__type__": "cc.Size",
-        "width": 238,
+        "width": 240,
         "height": 50
       },
       "_anchorPoint": {
@@ -7668,7 +7724,8 @@
           ],
           "_spriteFrame": {
             "__uuid__": "deS8lqR2dN/ZEeMrKC7N3l"
-          }
+          },
+          "_sizeMode": 2
         }
       ],
       "_prefab": {
@@ -7723,7 +7780,8 @@
           ],
           "_spriteFrame": {
             "__uuid__": "fe20eOdJNA8ImurqyrBJn6"
-          }
+          },
+          "_sizeMode": 2
         }
       ],
       "_prefab": {
@@ -7739,7 +7797,7 @@
       "_opacity": 0,
       "_contentSize": {
         "__type__": "cc.Size",
-        "width": 576,
+        "width": 578,
         "height": 76
       },
       "_trs": {
@@ -7778,7 +7836,8 @@
           ],
           "_spriteFrame": {
             "__uuid__": "a9Jzax/+ZFD5zH6JFJdhrf"
-          }
+          },
+          "_sizeMode": 2
         }
       ],
       "_prefab": {
@@ -9095,6 +9154,60 @@
   {
     "__type__": "cc.SpriteFrame",
     "content": {
+      "name": "cn-fortune",
+      "texture": "534MIivZBHVbFn7yMxMIyr",
+      "rect": [
+        1,
+        1,
+        341,
+        75
+      ],
+      "offset": [
+        0.5,
+        -0.5
+      ],
+      "originalSize": [
+        342,
+        76
+      ],
+      "capInsets": [
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  },
+  {
+    "__type__": "cc.SpriteFrame",
+    "content": {
+      "name": "cn-mainbet",
+      "texture": "35CBsiVxtADYqrgSbGRolV",
+      "rect": [
+        1,
+        1,
+        249,
+        74
+      ],
+      "offset": [
+        0.5,
+        0
+      ],
+      "originalSize": [
+        250,
+        76
+      ],
+      "capInsets": [
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  },
+  {
+    "__type__": "cc.SpriteFrame",
+    "content": {
       "name": "un-active",
       "texture": "bbDTx15iJD94ezl9lY50Pd",
       "rect": [
@@ -9110,6 +9223,33 @@
       "originalSize": [
         248,
         100
+      ],
+      "capInsets": [
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  },
+  {
+    "__type__": "cc.SpriteFrame",
+    "content": {
+      "name": "cn-acehigh",
+      "texture": "8ef0PkXYhG840qr2FkZ/ft",
+      "rect": [
+        1,
+        1,
+        351,
+        74
+      ],
+      "offset": [
+        0.5,
+        0
+      ],
+      "originalSize": [
+        352,
+        76
       ],
       "capInsets": [
         0,

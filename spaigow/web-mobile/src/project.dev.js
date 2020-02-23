@@ -221,6 +221,7 @@ window.__require = function e(t, n, r) {
         this.root["$ui"]["$type"]["$aceHighBet"]["$zone"]["#bet"]["label"].string = PaiGowText_1.paiGowText[lang]["Bet"]["AceHighBet"]["bet"];
         this.root["$ui"]["$type"]["$aceHighBet"]["#max"]["label"].string = PaiGowText_1.paiGowText[lang]["Bet"]["Max"];
         this.root["$ui"]["$type"]["$aceHighBet"]["#min"]["label"].string = PaiGowText_1.paiGowText[lang]["Bet"]["Min"];
+        this.root["$ui"]["$type"]["$mainBet"]["$zone"]["title"].y = PaiGowText_1.paiGowText[lang]["Bet"]["MainBet"]["y"];
         this.root["$ui"]["$type"]["$mainBet"]["$zone"]["#title"]["label"].string = PaiGowText_1.paiGowText[lang]["Bet"]["MainBet"]["title"];
         this.root["$ui"]["$type"]["$mainBet"]["$zone"]["#bet"]["label"].string = PaiGowText_1.paiGowText[lang]["Bet"]["MainBet"]["bet"];
         this.root["$ui"]["$type"]["$mainBet"]["#max"]["label"].string = PaiGowText_1.paiGowText[lang]["Bet"]["Max"];
@@ -4779,20 +4780,21 @@ window.__require = function e(t, n, r) {
       };
       PaiGowTable.prototype.updateResultEffect = function(mainBet, aceHighBet, fortuneBet, mainBetWin, aceHighBetWin, fortuneBetWin, mainBetResult, aceHighBetResult, fortuneBetResult) {
         if (null !== this.getResultEffect()) return;
+        var lang = PaiGowSetting_1.paiGowSetting.language;
         var totalWin = mainBetWin + aceHighBetWin + fortuneBetWin;
         var totalBet = mainBet + aceHighBet + fortuneBet;
         var result = totalWin - totalBet;
         result >= 0 ? this.setMessage(PaiGowMessage_1.PaiGowMessageType.Win, result + "") : this.setMessage(PaiGowMessage_1.PaiGowMessageType.Lose, result + "");
         var mainMessage = "";
-        mainBetResult == PaiGowTableInfo_1.MainBetResult.PUSH ? mainMessage += "PUSH" : mainBetResult == PaiGowTableInfo_1.MainBetResult.ACE_HIGH_PUSH ? mainMessage += "ACE HIGH PUSH" : mainBetWin > 0 && (mainMessage += mainBetWin);
+        mainBetResult == PaiGowTableInfo_1.MainBetResult.PUSH ? mainMessage += PaiGowTableInfo_1.resultDescription[lang]["main"][PaiGowTableInfo_1.MainBetResult.PUSH + ""] : mainBetResult == PaiGowTableInfo_1.MainBetResult.ACE_HIGH_PUSH ? mainMessage += PaiGowTableInfo_1.resultDescription[lang]["main"][PaiGowTableInfo_1.MainBetResult.ACE_HIGH_PUSH + ""] : mainBetWin > 0 && (mainMessage += mainBetWin);
         var aciHighMessages = [];
         if (aceHighBetWin > 0) {
-          aciHighMessages.push(PaiGowTableInfo_1.resultDescription["aceHigh"][aceHighBetResult + ""]);
+          aciHighMessages.push(PaiGowTableInfo_1.resultDescription[lang]["aceHigh"][aceHighBetResult + ""]);
           aciHighMessages.push(aceHighBetWin);
         }
         var fortuneMessages = [];
         if (fortuneBetWin > 0) {
-          fortuneMessages.push(PaiGowTableInfo_1.resultDescription["fortune"][fortuneBetResult + ""]);
+          fortuneMessages.push(PaiGowTableInfo_1.resultDescription[lang]["fortune"][fortuneBetResult + ""]);
           fortuneMessages.push(fortuneBetWin);
         }
         var resultEffect = cc.instantiate(this.ResultEffect);
@@ -5151,6 +5153,7 @@ window.__require = function e(t, n, r) {
           bet: "Bet"
         },
         MainBet: {
+          y: 20,
           title: "Main",
           bet: "Bet"
         },
@@ -5171,7 +5174,11 @@ window.__require = function e(t, n, r) {
         High: "HIGH HAND",
         Push: "PUSH"
       },
-      Dealer: {}
+      Dealer: {
+        Low: "LOW HAND",
+        High: "HIGH HAND",
+        AceHighPush: "ACE HIGH"
+      }
     };
     var CN = {
       Menu: [ {
@@ -5305,6 +5312,7 @@ window.__require = function e(t, n, r) {
           bet: "\u724c\u4e5d\u6ce8"
         },
         MainBet: {
+          y: 0,
           title: "\u4e3b\u8d4c\u6ce8",
           bet: ""
         },
@@ -5315,7 +5323,7 @@ window.__require = function e(t, n, r) {
         Max: "\u6700\u9ad8\u6ce8",
         Min: "\u6700\u4f4e\u6ce8",
         Buttons: {
-          Clear: "\u6e05\u9664",
+          Clean: "\u6e05\u9664",
           Cancel: "\u53d6\u6d88",
           Done: "\u5b8c\u6210"
         }
@@ -5720,11 +5728,14 @@ window.__require = function e(t, n, r) {
       value: true
     });
     var CocosUtils_1 = require("../lib/CocosUtils");
+    var PaiGowSetting_1 = require("../lib/PaiGowSetting");
     var _a = cc._decorator, ccclass = _a.ccclass, property = _a.property;
     var ResultEffect = function(_super) {
       __extends(ResultEffect, _super);
       function ResultEffect() {
         var _this = null !== _super && _super.apply(this, arguments) || this;
+        _this.CN = [];
+        _this.EN = [];
         _this.timeLine = 0;
         return _this;
       }
@@ -5734,7 +5745,13 @@ window.__require = function e(t, n, r) {
       ResultEffect.prototype.start = function() {
         this.language();
       };
-      ResultEffect.prototype.language = function() {};
+      ResultEffect.prototype.language = function() {
+        var lang = PaiGowSetting_1.paiGowSetting.language;
+        this.root["#youWin"]["sprite"].spriteFrame = this[lang][0];
+        this.root["#mainBet"]["sprite"].spriteFrame = this[lang][1];
+        this.root["#aceHighBet"]["sprite"].spriteFrame = this[lang][2];
+        this.root["#fortuneBet"]["sprite"].spriteFrame = this[lang][3];
+      };
       ResultEffect.prototype.play = function(youWin, mainMessage, aceHighMessages, fortuneMessages) {
         var _this = this;
         var messageActions = [];
@@ -5811,13 +5828,16 @@ window.__require = function e(t, n, r) {
       ResultEffect.prototype.setMessage = function(message) {
         this.root["$message"]["#title"]["label"].string = message;
       };
+      __decorate([ property(cc.SpriteFrame) ], ResultEffect.prototype, "CN", void 0);
+      __decorate([ property(cc.SpriteFrame) ], ResultEffect.prototype, "EN", void 0);
       ResultEffect = __decorate([ ccclass ], ResultEffect);
       return ResultEffect;
     }(cc.Component);
     exports.default = ResultEffect;
     cc._RF.pop();
   }, {
-    "../lib/CocosUtils": "CocosUtils"
+    "../lib/CocosUtils": "CocosUtils",
+    "../lib/PaiGowSetting": "PaiGowSetting"
   } ],
   TableCard: [ function(require, module, exports) {
     "use strict";
