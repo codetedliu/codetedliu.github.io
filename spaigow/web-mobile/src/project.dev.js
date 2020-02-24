@@ -4885,7 +4885,7 @@ window.__require = function e(t, n, r) {
 
          case PaiGowMessage_1.PaiGowMessageType.Lose:
           "" !== result && PaiGowMessage_1.PaiGowMessage.setResult(result);
-          message = PaiGowMessage_1.PaiGowMessage[lang][PaiGowMessage_1.PaiGowMessageType.Lose] + "-" + PaiGowMessage_1.PaiGowMessage.getResult() + PaiGowMessage_1.PaiGowMessage[lang][PaiGowMessage_1.PaiGowMessageType.Total];
+          message = PaiGowMessage_1.PaiGowMessage[lang][PaiGowMessage_1.PaiGowMessageType.Lose] + PaiGowMessage_1.PaiGowMessage.getResult() + PaiGowMessage_1.PaiGowMessage[lang][PaiGowMessage_1.PaiGowMessageType.Total];
           message += "\n " + PaiGowMessage_1.PaiGowMessage[lang][PaiGowMessage_1.PaiGowMessageType.PleaseBet];
           break;
 
