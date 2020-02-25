@@ -82,7 +82,8 @@ p.footer {
 }
 
 #splash {
-    position: relative;
+    position: absolute;
+    top: 0;
     margin: 0 auto;
     width: 100%;
     max-width: 750px;
