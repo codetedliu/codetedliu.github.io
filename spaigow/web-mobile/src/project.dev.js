@@ -331,7 +331,6 @@ window.__require = function e(t, n, r) {
       };
       Bet.prototype.onDoneClick = function() {
         var _this = this;
-        this.root["$ui"]["$buttons"]["#done"]["button"].interactable = false;
         if ("" === PaiGowTableInfo_1.gamerInfo.gamerId) {
           PaiGowContext_1.getAlert().show("Error. No id and bet.");
           return;
@@ -340,10 +339,15 @@ window.__require = function e(t, n, r) {
           PaiGowContext_1.getAlert().show(PaiGowMessage_1.PaiGowMessageType.NotEnoughBalanceForBet);
           return;
         }
+        this.root["$ui"]["$buttons"]["#done"]["button"].interactable = false;
+        this.root["$ui"]["$buttons"]["#claen"]["button"].interactable = false;
+        this.root["$ui"]["$buttons"]["#cancel"]["button"].interactable = false;
         PaiGowPoker2_1.paiGowPoker2.placeBet(PaiGowTableInfo_1.gamerInfo.gamerId, this.mainBetValue, this.aceHighBetValue, this.fortuneBetValue).catch(function(err) {
           PaiGowContext_1.getAlert().show(err);
           CocosUtils_1.default.error(err);
           _this.root["$ui"]["$buttons"]["#done"]["button"].interactable = true;
+          _this.root["$ui"]["$buttons"]["#claen"]["button"].interactable = true;
+          _this.root["$ui"]["$buttons"]["#cancel"]["button"].interactable = true;
         }).then(function(res) {
           if (!res) return;
           if ("undefined" !== typeof res["mainBetResult"]) if (3 === res["mainBetResult"]) {
@@ -1159,7 +1163,6 @@ window.__require = function e(t, n, r) {
             var paiGowTableJs = paiGowTable.getComponent("PaiGowTable");
             paiGowTableJs.init();
             _this.node.addChild(paiGowTable);
-            _this.refreshPlayerBalance();
             _this.schedule(_this.refreshPlayerBalance, 3, cc.macro.REPEAT_FOREVER);
             _this.loadMusic();
           });
