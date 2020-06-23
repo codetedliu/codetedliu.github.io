@@ -89,12 +89,7 @@ window.boot = function () {
             else if (settings.orientation === 'portrait') {
                 cc.view.setOrientation(cc.macro.ORIENTATION_PORTRAIT);
             }
-            cc.view.enableAutoFullScreen([
-                cc.sys.BROWSER_TYPE_BAIDU,
-                cc.sys.BROWSER_TYPE_WECHAT,
-                cc.sys.BROWSER_TYPE_MOBILE_QQ,
-                cc.sys.BROWSER_TYPE_MIUI,
-            ].indexOf(cc.sys.browserType) < 0);
+            cc.view.enableAutoFullScreen(false);
         }
 
         // Limit downloading max concurrent task to 2,
@@ -180,11 +175,17 @@ if (window.jsb) {
     if (isRuntime) {
         require('src/settings.js');
         require('src/cocos2d-runtime.js');
+        if (CC_PHYSICS_BUILTIN || CC_PHYSICS_CANNON) {
+            require('src/physics.js');
+        }
         require('jsb-adapter/engine/index.js');
     }
     else {
         require('src/settings.js');
         require('src/cocos2d-jsb.js');
+        if (CC_PHYSICS_BUILTIN || CC_PHYSICS_CANNON) {
+            require('src/physics.js');
+        }
         require('jsb-adapter/jsb-engine.js');
     }
 
